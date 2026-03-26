@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto text-center">
+            <div style="background: linear-gradient(180deg, #f8f8f8 0%, #efefef 100%); border: 1px solid #dddddd; border-radius: 0.75rem; padding: 3rem 2rem; color: #1f1f1f;">
+                <h1 class="display-4 fw-bold mb-2">
+                    <i class="fas fa-list me-2"></i>All Posts
+                </h1>
+                <p class="lead mb-0" style="color: #5f5f5f;">Explore all articles from our community</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Filter Sidebar -->
+        <div class="col-md-3 mb-4">
+            <div class="card border-0 shadow rounded-lg sticky-top" style="top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mb-3">Filter by Category</h5>
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'all_posts' %}" class="list-group-item list-group-item-action border-0 {% if not selected_category_id %}active{% endif %}">
+                            <i class="fas fa-th-large me-2"></i>All Posts
+                        </a>
+                        {% for cat in categories %}
+                        <a href="?category={{ cat.id }}" class='list-group-item list-group-item-action border-0 {% if selected_category_id == cat.id|stringformat:"s" %}active{% endif %}'>
+                            <i class="fas fa-tag me-2"></i>{{ cat.name }}
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="col-md-9">
+            {% if posts %}
+                <div class="row g-4">
+                    {% for post in posts %}
+                    <div class="col-md-12">
+                        <div class="card border-0 shadow-sm rounded-lg h-100 hover-shadow transition">
+                            <div class="row g-0">
+                                <div class="col-md-4">
+                                    {% if post.image %}
+                                    <img src="{{ post.image.url }}" alt="{{ post.title }}" style="height: 200px; width: 100%; object-fit: cover; border-radius: 0.5rem 0 0 0.5rem;">
+                                    {% else %}
+                                    <div style="background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%); height: 200px; border-radius: 0.5rem 0 0 0.5rem;"></div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <div class="mb-2">
+                                            {% if post.category %}
+                                            <span class="badge bg-info" style="background-color: #3f3f3f !important;">{{ post.category.name }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <h5 class="card-title post-title fw-bold">{{ post.title }}</h5>
+                                        <p class="card-text post-excerpt text-muted">{{ post.content|truncatewords:20 }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="fas fa-user me-1"></i>{{ post.author.username }} | 
+                                                <i class="fas fa-calendar me-1"></i>{{ post.created_at|date:"M d, Y" }}
+                                            </small>
+                                            <div>
+                                                <span class="badge bg-light text-dark"><i class="fas fa-heart"></i> {{ post.like_set.count }}</span>
+                                                <a href="{% url 'post_detail' post.pk %}" class="btn btn-sm btn-outline-primary ms-2">Read More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center py-5">
+                    <h5><i class="fas fa-info-circle me-2"></i>No posts found</h5>
+                    <p class="mb-0">Try selecting a different category or check back later!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-shadow {
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .hover-shadow:hover {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.15) !important;
+        transform: translateY(-2px);
+    }
+    .transition {
+        transition: all 0.3s ease;
+    }
+    .list-group-item {
+        transition: all 0.3s ease;
+    }
+    .list-group-item:hover {
+        background-color: rgba(111, 156, 141, 0.1) !important;
+        padding-left: 1.5rem;
+    }
+    .list-group-item.active {
+        background-color: rgba(111, 156, 141, 0.15) !important;
+        color: #2f2f2f !important;
+        border-left: 3px solid #3f3f3f !important;
+    }
+</style>
+
+{% endblock %}
+
+
+

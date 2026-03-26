@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto text-center">
+            <div style="background: linear-gradient(180deg, #f8f8f8 0%, #efefef 100%); border: 1px solid #dddddd; border-radius: 0.75rem; padding: 3rem 2rem; color: #1f1f1f;">
+                <h1 class="display-4 fw-bold mb-2">
+                    <i class="fas fa-heart me-2"></i>About Our Blog
+                </h1>
+                <p class="lead mb-0" style="color: #5f5f5f;">A community-driven platform for sharing ideas and stories</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto">
+            <!-- About Content -->
+            <div class="card border-0 shadow-sm rounded-lg mb-4">
+                <div class="card-body p-5">
+                    <h3 class="fw-bold mb-4" style="color: #2f2f2f;">Welcome to Our Blog</h3>
+                    <p class="lead mb-3">
+                        This is a vibrant community where passionate writers and thinkers come together to share their ideas, experiences, and knowledge with the world.
+                    </p>
+                    <p class="mb-3">
+                        Our platform is designed to be simple yet powerful, allowing anyone to create, share, and engage with compelling content. Whether you're writing about technology, life, travel, or any other topic, you'll find a welcoming community here.
+                    </p>
+                    <p class="mb-0">
+                        We believe in the power of storytelling and the value of diverse perspectives. Join us in building a space where everyone's voice matters.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-lg text-center" style="background: linear-gradient(135deg, rgba(111, 156, 141, 0.12) 0%, rgba(138, 183, 164, 0.12) 100%);">
+                        <div class="card-body py-4">
+                            <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%);">
+                                <i class="fas fa-file-alt text-white fs-4"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2" style="color: #2f2f2f;">Posts</h5>
+                            <h2 class="fw-bold" style="color: #1a1a1a;">{{ post_count }}</h2>
+                            <small class="text-muted">Total articles published</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-lg text-center" style="background: linear-gradient(135deg, rgba(111, 156, 141, 0.12) 0%, rgba(138, 183, 164, 0.12) 100%);">
+                        <div class="card-body py-4">
+                            <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%);">
+                                <i class="fas fa-users text-white fs-4"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2" style="color: #2f2f2f;">Authors</h5>
+                            <h2 class="fw-bold" style="color: #1a1a1a;">{{ user_count }}</h2>
+                            <small class="text-muted">Active contributors</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-lg text-center" style="background: linear-gradient(135deg, rgba(111, 156, 141, 0.12) 0%, rgba(138, 183, 164, 0.12) 100%);">
+                        <div class="card-body py-4">
+                            <div class="rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%);">
+                                <i class="fas fa-comments text-white fs-4"></i>
+                            </div>
+                            <h5 class="fw-bold mb-2" style="color: #2f2f2f;">Comments</h5>
+                            <h2 class="fw-bold" style="color: #1a1a1a;">{{ comment_count }}</h2>
+                            <small class="text-muted">Community engagement</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission Section -->
+            <div class="card border-0 shadow-sm rounded-lg mb-4">
+                <div class="card-body p-5">
+                    <h3 class="fw-bold mb-4" style="color: #2f2f2f;">Our Mission</h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: #2f2f2f;"></i>
+                            <strong>Empower creators</strong> - Give everyone the tools to share their stories
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: #2f2f2f;"></i>
+                            <strong>Build community</strong> - Foster meaningful connections between readers and writers
+                        </li>
+                        <li class="mb-3">
+                            <i class="fas fa-check-circle me-2" style="color: #2f2f2f;"></i>
+                            <strong>Inspire learning</strong> - Share knowledge and ideas that make a difference
+                        </li>
+                        <li>
+                            <i class="fas fa-check-circle me-2" style="color: #2f2f2f;"></i>
+                            <strong>Promote diversity</strong> - Welcome all voices and perspectives
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="text-center">
+                <h4 class="fw-bold mb-4">Ready to start writing?</h4>
+                {% if user.is_authenticated %}
+                <a href="{% url 'create_post' %}" class="btn btn-lg" style="background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%); color: white; border: none;">
+                    <i class="fas fa-plus me-2"></i>Create Your First Post
+                </a>
+                {% else %}
+                <a href="{% url 'register' %}" class="btn btn-lg" style="background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%); color: white; border: none;">
+                    <i class="fas fa-user-plus me-2"></i>Join Our Community
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+

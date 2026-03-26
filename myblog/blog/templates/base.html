@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f7f7f7;
+            --surface: #ffffff;
+            --surface-soft: #f0f0f0;
+            --text: #1f1f1f;
+            --muted: #666666;
+            --primary: #2f2f2f;
+            --primary-soft: #ebebeb;
+            --border: #dddddd;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 8% 8%, #f1f1f1 0%, transparent 36%),
+                radial-gradient(circle at 90% 0%, #f5f5f5 0%, transparent 30%),
+                var(--bg);
+            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        h1, h2, h3, h4, h5 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: 0;
+        }
+        .post-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+        .post-content {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.03rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .post-excerpt {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.7;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+            backdrop-filter: blur(8px);
+            padding: 0.75rem 0 !important;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-right: 2rem !important;
+            color: var(--text) !important;
+        }
+        .navbar-search {
+            flex-grow: 1;
+            max-width: 400px;
+            margin: 0 1.5rem;
+        }
+        .navbar-search .form-control {
+            background: var(--surface-soft);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+        }
+        .navbar-search .form-control::placeholder {
+            color: var(--muted);
+        }
+        .navbar-search .form-control:focus {
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(47, 47, 47, 0.2);
+            color: var(--text);
+        }
+        .navbar-icons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .navbar-icons .icon-btn {
+            color: var(--text);
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+        .navbar-icons .icon-btn:hover {
+            color: var(--primary);
+        }
+        .navbar-icons .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .navbar-avatar-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--surface-soft);
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+        .navbar-avatar-btn:hover {
+            transform: scale(1.04);
+            border-color: var(--primary);
+        }
+        .navbar-avatar-btn:focus {
+            box-shadow: 0 0 0 0.2rem rgba(47, 47, 47, 0.25);
+        }
+        .navbar-avatar-btn::after {
+            display: none !important;
+        }
+        .navbar-avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .card {
+            border-radius: 1rem !important;
+            border: 1px solid var(--border) !important;
+            box-shadow: var(--shadow);
+            background: var(--surface);
+        }
+        .text-muted {
+            color: var(--muted) !important;
+        }
+        .btn-primary,
+        .btn-success {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-primary:hover,
+        .btn-success:hover {
+            background-color: #1f1f1f;
+            border-color: #1f1f1f;
+        }
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        .badge.bg-info {
+            background-color: #4a4a4a !important;
+        }
+        .dropdown-menu {
+            border: 1px solid var(--border);
+            border-radius: 0.9rem;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1);
+        }
+        footer {
+            background: linear-gradient(180deg, #f1f1f1 0%, #e7e7e7 100%);
+            color: var(--text);
+            padding: 3rem 0 0;
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+        }
+        .footer-section {
+            padding: 2rem 0;
+        }
+        .footer-section h5 {
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        .footer-section a {
+            color: var(--muted);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        .footer-bottom {
+            text-align: center;
+            /* padding: 2rem;
+            border-top: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.4); */
+        }
+        .alert {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center w-100">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-feather-alt me-2"></i>MyBlog
+            </a>
+            
+            <!-- Search Bar -->
+            <div class="navbar-search d-none d-lg-block">
+                <input class="form-control" type="search" placeholder="Search posts..." aria-label="Search">
+            </div>
+            
+            <!-- Nav Links (Desktop) -->
+            <div class="d-none d-lg-flex gap-2 ms-4">
+                <a href="/" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-home me-1"></i>Home
+                </a>
+                <a href="{% url 'all_posts' %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-list me-1"></i>All Posts
+                </a>
+                <a href="{% url 'categories' %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-tags me-1"></i>Categories
+                </a>
+                <a href="{% url 'about' %}" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-info-circle me-1"></i>About
+                </a>
+            </div>
+            <!-- Navbar Icons & Auth -->
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <!-- Notifications -->
+                <button class="icon-btn d-none d-md-flex" type="button" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <!-- Explore -->
+                <a href="/" class="btn btn-sm btn-outline-primary d-none d-md-inline-block">
+                    <i class="fas fa-compass me-1"></i>Explore
+                </a>
+                
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle navbar-avatar-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Open profile menu">
+                            {% if navbar_profile and navbar_profile.profile_pic %}
+                                <img src="{{ navbar_profile.profile_pic.url }}" alt="{{ user.username }} avatar" class="navbar-avatar-img">
+                            {% else %}
+                                <i class="fas fa-user"></i>
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="fas fa-user me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'create_post' %}"><i class="fas fa-pen-fancy me-2"></i>Create Post</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="/login/" class="btn btn-sm btn-primary">Login</a>
+                    <a href="/register/" class="btn btn-sm btn-outline-primary">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="main-content">
+    {% for message in messages %}
+        <div class="container mt-3">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 footer-section">
+                <h5>About Blog</h5>
+                <p>A modern platform to share your thoughts and ideas with the world. Connect, engage, and inspire.</p>
+                <div class="social-links">
+                    <a href="#" class="me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 footer-section">
+                <h5>Quick Links</h5>
+                <a href="/">Home</a>
+                <a href="{% if user.is_authenticated %}{% url 'profile' %}{% else %}/login/{% endif %}">Profile</a>
+                {% if not user.is_authenticated %}
+                    <a href="/register/">Register</a>
+                {% endif %}
+            </div>
+            <div class="col-md-4 footer-section">
+                <h5>Contact</h5>
+                <p>Email: admin@blog.com</p>
+                <p>Phone: 01812345678</p>
+                <p>Address: 123 Blog Street, Web City, Bangladesh</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2026 MyBlog. All rights reserved.</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+

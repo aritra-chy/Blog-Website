@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-5 mx-auto">
+            <div class="card border-0 shadow rounded-lg">
+                <div style="background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%); padding: 2rem;">
+                    <h2 class="text-white fw-bold mb-0">Welcome Back</h2>
+                    <p class="text-white-50 mb-0">Sign in to your account</p>
+                </div>
+                <div class="card-body p-5">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ next|default:'' }}">
+                        
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-bold">Username</label>
+                            <input type="text" class="form-control form-control-lg" id="username" name="username" placeholder="Enter your username" required autofocus>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold">Password</label>
+                            <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Enter your password" required>
+                        </div>
+                        
+                        <button class="btn btn-primary btn-lg w-100 fw-bold mb-3" type="submit">Sign In</button>
+                    </form>
+
+                    <hr>
+
+                    <div class="text-center">
+                        <p class="mb-0">Don't have an account? <a href="/register/" class="fw-bold">Create one</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control:focus {
+        border-color: #3f3f3f;
+        box-shadow: 0 0 0 0.2rem rgba(111, 156, 141, 0.25);
+    }
+</style>
+{% endblock %}
+
+
+
