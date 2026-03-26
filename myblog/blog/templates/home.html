@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<div style="background: linear-gradient(rgba(20, 20, 20, 0.5), rgba(20, 20, 20, 0.55)), url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat; border-bottom: 1px solid #d0d0d0; color: #ffffff; padding: 5rem 0; text-align: center; min-height: 440px; display: flex; align-items: center;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto">
+                <i class="fas fa-pen-fancy display-1 mb-3 d-block" style="opacity: 0.75;"></i>
+                <h1 class="display-3 fw-bold mb-3">Welcome to MyBlog</h1>
+                <p class="lead mb-5" style="font-size: 1.2rem; color: #f2f2f2;">Share your stories, insights, and ideas with the world. 
+                    <br>Connect with readers and build your community today.</p>
+                {% if not user.is_authenticated %}
+                <div>
+                    <a href="/register/" class="btn btn-light btn-lg me-3 px-5">
+                        <i class="fas fa-rocket me-2"></i>Get Started
+                    </a>
+                    <a href="/login/" class="btn btn-outline-light btn-lg px-5">
+                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </a>
+                </div>
+                {% else %}
+                <a href="{% url 'create_post' %}" class="btn btn-light btn-lg px-5">
+                    <i class="fas fa-pencil-alt me-2"></i>Write Your First Post
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Posts Section -->
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-center mb-5 fw-bold">Latest Posts</h2>
+            {% if posts %}
+                <div class="row g-4">
+                    {% for post in posts %}
+                    <div class="col-sm-6 col-lg-4">
+                        <div class="card h-100 shadow-sm border-0 rounded-lg overflow-hidden d-flex flex-column">
+                            {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            {% else %}
+                            <div style="height: 200px; background: linear-gradient(135deg, #3f3f3f 0%, #8c8c8c 100%); display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-image fa-3x text-white-50"></i>
+                            </div>
+                            {% endif %}
+                            <div class="card-body p-4 d-flex flex-column">
+                                {% if post.category %}
+                                <span class="badge bg-info mb-2 align-self-start">{{ post.category.name }}</span>
+                                {% endif %}
+                                <h5 class="card-title post-title mb-2">{{ post.title }}</h5>
+                                <small class="text-muted mb-3">By <strong>{{ post.author.username }}</strong> | {{ post.created_at|date:"M d, Y" }}</small>
+                                <p class="card-text post-excerpt text-muted flex-grow-1">{{ post.content|truncatewords:20 }}</p>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <a href="/post/{{ post.id }}/" class="btn btn-primary btn-sm">Read More</a>
+                                    <span class="badge bg-light text-dark">
+                                        <i class="far fa-heart"></i> {{ post.like_set.count }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center py-5" role="alert">
+                    <h4>No posts yet</h4>
+                    <p>Be the first to share your thoughts!</p>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'create_post' %}" class="btn btn-primary">Create Post</a>
+                    {% else %}
+                        <a href="/register/" class="btn btn-primary">Register to Post</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
