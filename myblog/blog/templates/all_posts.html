@@ -65,7 +65,7 @@
                                             </small>
                                             <div>
                                                 <span class="badge bg-light text-dark"><i class="fas fa-heart"></i> {{ post.like_set.count }}</span>
-                                                <a href="{% url 'post_detail' post.pk %}" class="btn btn-sm btn-outline-primary ms-2">Read More</a>
+                                                <a href="{% url 'post_detail' post.slug %}" class="btn btn-sm btn-outline-primary ms-2">Read More</a>
                                             </div>
                                         </div>
                                     </div>

@@ -12,8 +12,8 @@ def home(request):
 
 
 @never_cache
-def post_detail(request, id):
-    post = get_object_or_404(Post, id=id)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(post=post)
 
     liked = False
@@ -24,7 +24,7 @@ def post_detail(request, id):
         if request.user.is_authenticated:
             content = request.POST.get('content')
             Comment.objects.create(post=post, author=request.user, content=content)
-            return redirect('post_detail', id=id)
+            return redirect('post_detail', slug=post.slug)
 
     return render(request, 'post_details.html', {
         'post': post,
@@ -62,7 +62,7 @@ def edit_post(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Post updated successfully!")
-            return redirect('post_detail', id=id)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm(instance=post)
 
@@ -90,7 +90,7 @@ def like_post(request, id):
     else:
         Like.objects.create(post=post, user=request.user)
 
-    return redirect('post_detail', id=id)
+    return redirect('post_detail', slug=post.slug)
 
 
 @never_cache
